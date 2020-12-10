@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import be.busi.springboot.thymeleaf.entity.Employee;
 import be.busi.springboot.thymeleaf.service.EmployeeService;
@@ -46,6 +47,19 @@ public class EmployeeController {
 		
 		// create model attribute to bind form data
 		Employee employee = new Employee();
+		
+		model.addAttribute("employee", employee);
+		
+		return "employees/employee-form";
+	}
+	
+	@GetMapping("showFormForUpdate")
+	public String showFormForUpdate(@RequestParam("employeeId") int theId, Model model) {
+		
+		// get the employee from the service
+		Employee employee = employeeService.findById(theId);
+		
+		//set employe as a model attribute to pre-populate the form
 		
 		model.addAttribute("employee", employee);
 		
