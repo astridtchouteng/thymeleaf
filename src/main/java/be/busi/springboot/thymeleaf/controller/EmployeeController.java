@@ -41,6 +41,18 @@ public class EmployeeController {
 		return "employees/list-employees";
 	}
 	
+	@GetMapping("sortLastName")
+	public String sortByLastName(Model model) {
+		
+		// get employees from db
+		List<Employee> employees = employeeService.findAllByOrderByLastNameAsc();
+				
+		// add to the spring model
+		model.addAttribute("employees", employees);
+				
+		return "employees/list-employees";
+	}
+	
 	
 	@GetMapping("showFormForAdd")
 	public String showFormForAdd(Model model) {
@@ -77,16 +89,14 @@ public class EmployeeController {
 		return "redirect:/employees/list";
 	}
 	
-	@GetMapping("sortLastName")
-	public String sortByLastName(Model model) {
+	@GetMapping("delete")
+	public String delete(@RequestParam("employeeId") int theId, Model model) {
 		
-		// get employees from db
-		List<Employee> employees = employeeService.findAllByOrderByLastNameAsc();
-				
-		// add to the spring model
-		model.addAttribute("employees", employees);
-				
-		return "employees/list-employees";
+		// delete the employee
+		employeeService.deleteById(theId);
+		
+		// redirect to employees/list
+		return "redirect:/employees/list";
 	}
 }
 
