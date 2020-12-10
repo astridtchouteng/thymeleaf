@@ -6,6 +6,20 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <style >
+    	.body {
+      		  display: flex;
+      		  flex: auto;
+      		  flex-flow: row wrap;
+      		  padding: 0.2rem;
+      		  align-content: flex-start;
+    	}
+    	.body div {
+      		flex-basis: 20px;
+     		margin: 0.5rem;
+    	}
+    </style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
@@ -38,7 +52,7 @@
 					<a th:href="@{/employees/sortLastName}">Last Name</a> 
 				</th>
 				<th>Email</th>
-				<th>Action</th>
+				<th sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')">Action</th>
 			</tr>
 		</thead>
 		
@@ -50,20 +64,23 @@
 				<td th:text="${tempEmployee.email}" />	
 				
 				<!-- Add update button/link -->
-				<td>
-					<div sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')">
-						<a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}"
-							class= "btn btn-info btn-sm">
-							Update
-						</a>
-					</div>
-					
-					<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-						<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
-							class= "btn btn-danger btn-sm"
-							onclick="if (!(confirm('Are you sure to delete this employe?'))) return false">
-							Delete
-						</a>
+				<td sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')">
+				
+					<div class="body">
+							<div sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')">
+								<a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}"
+									class= "btn btn-info btn-sm">
+									Update
+								</a>
+							</div>
+							
+							<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+								<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
+									class= "btn btn-danger btn-sm"
+									onclick="if (!(confirm('Are you sure to delete this employe?'))) return false">
+									Delete
+								</a>
+							</div>
 					</div>
 				</td>
 			</tr>
