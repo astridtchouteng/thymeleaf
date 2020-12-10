@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <!-- Required meta tags -->
@@ -50,19 +51,32 @@
 				
 				<!-- Add update button/link -->
 				<td>
-					<a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}"
-						class= "btn btn-info btn-sm">
-						Update
-					</a>
-					<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
-						class= "btn btn-danger btn-sm"
-						onclick="if (!(confirm('Are you sure to delete this employe?'))) return false">
-						Delete
-					</a>
+					<div sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')">
+						<a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}"
+							class= "btn btn-info btn-sm">
+							Update
+						</a>
+					</div>
+					
+					<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
+							class= "btn btn-danger btn-sm"
+							onclick="if (!(confirm('Are you sure to delete this employe?'))) return false">
+							Delete
+						</a>
+					</div>
 				</td>
 			</tr>
 		</tbody>		
 	</table>
+	
+	<!-- Add a button for logout -->
+	<form action="#" th:action="@{/logout}" 
+			   method="POST">
+	
+		<input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+	
+	</form>
 	
 </div>
 	
