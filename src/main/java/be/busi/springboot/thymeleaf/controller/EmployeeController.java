@@ -62,6 +62,18 @@ public class EmployeeController {
 		// use a redirect to prevent duplicate submissions
 		return "redirect:/employees/list";
 	}
+	
+	@GetMapping("sortLastName")
+	public String sortByLastName(Model model) {
+		
+		// get employees from db
+		List<Employee> employees = employeeService.findAllByOrderByLastNameAsc();
+				
+		// add to the spring model
+		model.addAttribute("employees", employees);
+				
+		return "employees/list-employees";
+	}
 }
 
 
